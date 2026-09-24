@@ -72,12 +72,13 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
         switch link {
         case .post(let id):
             guard let post = repository.post(id: id) else { return }
-            router.setStack([root, screens.makeDetail(for: post, actions: postActions)], animated: animated)
+            let detail = screens.makeDetail(for: post, actions: postActions)
+            router.setStack([root, detail], animated: animated)
         case .comments(let id):
             guard let post = repository.post(id: id) else { return }
-            router.setStack([root,
-                             screens.makeDetail(for: post, actions: postActions),
-                             screens.makeComments(for: post, actions: postActions)], animated: animated)
+            let detail = screens.makeDetail(for: post, actions: postActions)
+            let comments = screens.makeComments(for: post, actions: postActions)
+            router.setStack([root, detail, comments], animated: animated)
         case .profile:
             break
         }
