@@ -1,33 +1,36 @@
+import Combine
 import UIKit
 
-final class LeakLabViewController: UITableViewController, LeakReporting {
-    private weak var coordinator: LeakLabCoordinator?
-    private var lastReport: String?
-    private let flowScenarios: [LeakScenario] = [.forgetChild, .closureCycle, .retainedSlot]
+final class LeakLabViewController: UITableViewController {
+    private let viewModel: LeakLabViewModel
+    private var cancellables = Set<AnyCancellable>()
 
     private enum Section: Int, CaseIterable { case flows, detector, tree }
 
-    init(coordinator: LeakLabCoordinator) {
-        self.coordinator = coordinator
+    init(viewModel: LeakLabViewModel) {
+        self.viewModel = viewModel
         super.init(style: .insetGrouped)
         title = "Leak Lab"
     }
 
     required init?(coder: NSCoder) { fatalError("not used") }
 
-    // MARK: LeakReporting
+    deinit { LeakDetector.shared.didDeinit(self) }
 
-    func report(_ message: String) {
-        lastReport = message
-        tableView.reloadSections(IndexSet(integer: Section.detector.rawValue), with: .automatic)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.$lastReport
+            .dropFirst()
+            .sink { [weak self] _ in
+                self?.tableView.reloadSections(IndexSet(integer: Section.detector.rawValue), with: .automatic)
+            }
+            .store(in: &cancellables)
     }
-
-    // MARK: Table
 
     override func numberOfSections(in tableView: UITableView) -> Int { Section.allCases.count }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Section(rawValue: section) == .flows ? flowScenarios.count : 1
+        Section(rawValue: section) == .flows ? viewModel.flows.count : 1
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -52,16 +55,16 @@ final class LeakLabViewController: UITableViewController, LeakReporting {
         content.secondaryTextProperties.color = .secondaryLabel
         switch Section(rawValue: indexPath.section)! {
         case .flows:
-            configure(&content, cell, for: flowScenarios[indexPath.row])
+            configure(&content, cell, for: viewModel.flows[indexPath.row])
         case .tree:
-            configure(&content, cell, for: .signOut)
+            configure(&content, cell, for: viewModel.tree)
         case .detector:
-            let leaked = lastReport != nil
-            content.text = lastReport ?? "No leak reported"
-            content.textProperties.color = leaked ? .systemRed : .secondaryLabel
+            let report = viewModel.lastReport
+            content.text = report ?? "No leak reported"
+            content.textProperties.color = report == nil ? .secondaryLabel : .systemRed
             content.textProperties.font = .preferredFont(forTextStyle: .callout)
-            content.image = UIImage(systemName: leaked ? "exclamationmark.triangle.fill" : "checkmark.seal")
-            content.imageProperties.tintColor = leaked ? .systemRed : .systemGreen
+            content.image = UIImage(systemName: report == nil ? "checkmark.seal" : "exclamationmark.triangle.fill")
+            content.imageProperties.tintColor = report == nil ? .systemGreen : .systemRed
         }
         cell.contentConfiguration = content
         return cell
@@ -73,10 +76,10 @@ final class LeakLabViewController: UITableViewController, LeakReporting {
         content.image = UIImage(systemName: scenario.symbol)
         content.imageProperties.tintColor = .systemRed
         let toggle = UISwitch()
-        toggle.isOn = coordinator?.enabled.contains(scenario) ?? false
+        toggle.isOn = viewModel.isEnabled(scenario)
         toggle.addAction(UIAction { [weak self] action in
-            guard let s = action.sender as? UISwitch else { return }
-            self?.coordinator?.setEnabled(s.isOn, for: scenario)
+            guard let toggle = action.sender as? UISwitch else { return }
+            self?.viewModel.setEnabled(toggle.isOn, for: scenario)
         }, for: .valueChanged)
         cell.accessoryView = toggle
     }
@@ -84,8 +87,6 @@ final class LeakLabViewController: UITableViewController, LeakReporting {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard Section(rawValue: indexPath.section) == .flows else { return }
-        lastReport = nil
-        tableView.reloadSections(IndexSet(integer: Section.detector.rawValue), with: .none)
-        coordinator?.run(flowScenarios[indexPath.row])
+        viewModel.run(viewModel.flows[indexPath.row])
     }
 }
