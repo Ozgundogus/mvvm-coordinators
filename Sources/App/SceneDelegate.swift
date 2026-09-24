@@ -9,10 +9,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
-        let arguments = LaunchArguments()
         let coordinator = AppCoordinator(window: window,
-                                         store: SampleStore(),
-                                         launch: arguments)
+                                         dependencies: .live(),
+                                         launch: LaunchArguments(defaults: .standard))
         appCoordinator = coordinator
         self.window = window
         coordinator.start()
