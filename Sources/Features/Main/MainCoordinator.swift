@@ -1,7 +1,5 @@
 import UIKit
 
-/// The signed-in app: a tab bar with one coordinator per tab. Children stay
-/// private; whatever the outside world needs goes through a method here.
 final class MainCoordinator: BaseCoordinator, Coordinator {
     let tabBar = UITabBarController()
 

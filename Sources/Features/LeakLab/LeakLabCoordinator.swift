@@ -1,7 +1,5 @@
 import UIKit
 
-/// Runs the lab's flows with a leak switched on or off. Every flow is the same
-/// `DetailFlowCoordinator`; only the bug changes.
 final class LeakLabCoordinator: BaseCoordinator, Coordinator {
     private let router: Routing
     private let repository: PostRepository
@@ -25,8 +23,7 @@ final class LeakLabCoordinator: BaseCoordinator, Coordinator {
         router.setStack([LeakLabViewController(viewModel: viewModel)], animated: false)
     }
 
-    /// Leak 1 lives here: with `forgetChild` on, the parent hears the child finish
-    /// and does nothing about it.
+    /// With `forgetChild` on, the parent hears the child finish and does nothing.
     func childDidFinish(_ child: Coordinator) {
         if settings.isEnabled(.forgetChild) { return }
         removeChild(child)
@@ -46,13 +43,13 @@ final class LeakLabCoordinator: BaseCoordinator, Coordinator {
         case .retainedSlot:
             let orphan = DetailFlowCoordinator(router: router, repository: repository, post: post)
             if settings.isEnabled(.retainedSlot) {
-                Self.retainedSlot = orphan          // nobody ever clears this
+                Self.retainedSlot = orphan
                 orphan.start()
             } else {
                 startChild(orphan)
             }
         case .signOut:
-            break   // triggered from the Profile tab's sign-out button
+            break
         }
     }
 

@@ -37,6 +37,6 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
     }
 
     private func close() {
-        presenter.dismiss(navigation)   // fires onDismiss above → finish()
+        presenter.dismiss(navigation)
     }
 }

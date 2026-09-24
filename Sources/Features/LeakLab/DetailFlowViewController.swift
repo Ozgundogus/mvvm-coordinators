@@ -1,8 +1,7 @@
 import Combine
 import UIKit
 
-/// The lab's one-screen flow. With `strongSubscription` it binds the way a lot of
-/// real code does: `sink { self.render() }` — and the screen never goes away.
+/// With `strongSubscription` the `sink` captures `self` and the screen never deinits.
 final class DetailFlowViewController: UIViewController {
     private let viewModel: DetailFlowViewModel
     private let strongSubscription: Bool

@@ -1,15 +1,12 @@
 import UIKit
 
-/// What a coordinator wants to happen when the user leaves a post screen. The
-/// factory wires the view models; the coordinator decides where each intent goes.
 struct PostScreenActions {
     var showComments: (Post) -> Void
     var showAuthor: (User) -> Void
     var reply: (Post) -> Void
 }
 
-/// The post and comments screens are reached from the feed and from a profile.
-/// One factory, two owners.
+/// Post and comments screens are reached from the feed and from a profile.
 struct PostScreenFactory {
     let repository: PostRepository
 

@@ -16,7 +16,7 @@ protocol AuthService: AnyObject {
     func signOut(_ session: Session) async
 }
 
-/// Behaves like a network sign-in: takes a moment, and one account always fails.
+/// Takes a moment like a network call; one account always fails.
 final class FakeAuthService: AuthService {
     let accounts: [User]
     private let lockedHandle: String?

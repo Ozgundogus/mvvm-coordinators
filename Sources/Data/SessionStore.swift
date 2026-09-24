@@ -1,8 +1,7 @@
 import Combine
 import Foundation
 
-/// The single source of truth for "who is signed in". `AppCoordinator` observes it
-/// and swaps the root when it changes; nobody else touches the window.
+/// Who is signed in. `AppCoordinator` observes this and swaps the root.
 final class SessionStore {
     @Published private(set) var session: Session?
 

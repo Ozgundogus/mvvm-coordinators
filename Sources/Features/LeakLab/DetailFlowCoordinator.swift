@@ -1,8 +1,6 @@
 import UIKit
 
-/// A one-screen flow the lab can run with a bug switched on. It ends the way every
-/// flow should — `finish()` when its screen pops — and then asks the detector to
-/// confirm it is gone.
+/// The lab's one-screen flow, optionally with a bug switched on.
 final class DetailFlowCoordinator: BaseCoordinator, Coordinator {
     enum Bug {
         case closureCycle
@@ -26,7 +24,7 @@ final class DetailFlowCoordinator: BaseCoordinator, Coordinator {
     func start() {
         let viewModel = DetailFlowViewModel(post: post)
         if bug == .closureCycle {
-            viewModel.onShowComments = { self.showComments() }              // captures self
+            viewModel.onShowComments = { self.showComments() }
         } else {
             viewModel.onShowComments = { [weak self] in self?.showComments() }
         }

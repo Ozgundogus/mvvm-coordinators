@@ -1,9 +1,7 @@
 import Combine
 import UIKit
 
-/// Root of the tree. Owns the window and exactly one child at a time: onboarding,
-/// the auth flow, or the signed-in app. The session decides which; this
-/// coordinator only reacts.
+/// Owns the window and one child at a time; the session decides which.
 final class AppCoordinator: BaseCoordinator, Coordinator {
     private let window: UIWindow
     private let dependencies: AppDependencies
@@ -12,7 +10,6 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
     private var pendingLink: DeepLink?
     private var cancellables = Set<AnyCancellable>()
 
-    /// Leak scenario: the retired tree is kept around after sign-out.
     private var retiredTrees: [MainCoordinator] = []
 
     init(window: UIWindow, dependencies: AppDependencies, launch: LaunchArguments) {
@@ -39,7 +36,7 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
         if let main {
             main.handle(link)
         } else {
-            pendingLink = link      // cold start into onboarding or auth: park it, deliver after sign-in
+            pendingLink = link
         }
     }
 
@@ -81,8 +78,6 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
         }
     }
 
-    /// One child at a time. Whatever was there is removed first, and the detector
-    /// checks that it actually went away.
     private func swapRoot(to child: Coordinator, showing root: UIViewController, animated: Bool) {
         let retired = children
         retired.forEach(removeChild)

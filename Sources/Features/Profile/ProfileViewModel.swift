@@ -40,8 +40,6 @@ final class ProfileViewModel {
         onSelectPost?(posts[index])
     }
 
-    /// Ends the session. Nobody here touches navigation: `AppCoordinator` sees the
-    /// session go nil and swaps the root.
     func signOut() {
         guard !isSigningOut, let current = session.session else { return }
         isSigningOut = true
