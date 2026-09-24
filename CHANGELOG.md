@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0 — 2026-09-24
+
+Companion release for *Where a Coordinator Comes From: MVVM-C on iOS, Part 2*.
+
+- A deep link that arrives before sign-in is parked on `AppCoordinator` and delivered, without animation, once `MainCoordinator` exists; `-deeplink` no longer implies `-autoLogin`
+- `handle(_:animated:)` down the tree: warm links animate, cold-start delivery does not
+- A warm link ends what the tab had open: the compose sheet through `ComposeCoordinator.dismiss()`, a pushed child through the router sweep on `setStack`
+- Notification taps: `DeepLink(userInfo:)` and a `UNUserNotificationCenterDelegate` that forwards to the same `handle(_:)`
+- `FakeRouter.setStack` runs the completions of the screens it removes
+- UI test target that walks both deep-link paths and attaches screenshots
+
 ## 1.1.0 — 2026-09-24
 
 - Layout: `Core` / `Domain` / `Data` / `Features` / `DesignSystem`; one folder per flow with Coordinator + ViewModel + ViewController
