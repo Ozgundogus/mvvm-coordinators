@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 — 2026-09-24
 
 - Layout: `Core` / `Domain` / `Data` / `Features` / `DesignSystem`; one folder per flow with Coordinator + ViewModel + ViewController
 - MVVM: a view model for every screen, bound with Combine; view models never import UIKit (`AvatarColor` replaces `UIColor` in the domain)
