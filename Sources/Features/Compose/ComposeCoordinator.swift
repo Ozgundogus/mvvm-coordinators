@@ -16,7 +16,7 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
     func start() {
         let viewModel = ComposeViewModel(replyingTo: replyingTo,
                                          draft: "The router's onPop is the part I always forget. Writing it down this time.")
-        viewModel.onDone = { [weak self] in self?.close() }
+        viewModel.onDone = { [weak self] in self?.dismiss() }
         viewModel.onAttach = { [weak self] in self?.showMediaPicker() }
         self.viewModel = viewModel
         navigation.viewControllers = [ComposeViewController(viewModel: viewModel)]
@@ -36,7 +36,7 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
         picker.start()
     }
 
-    private func close() {
+    func dismiss() {
         presenter.dismiss(navigation)
     }
 }

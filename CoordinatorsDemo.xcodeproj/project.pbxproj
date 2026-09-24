@@ -23,6 +23,7 @@
 		420B3BB5D0C801F297C21B12 /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B229626B3CCBAADBDBDCAB9 /* CommentsViewModel.swift */; };
 		4362B477488B9152F589A8CD /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D9A2B23FBFD22EE4714027 /* Router.swift */; };
 		4EEE681BC35EB3430CC3070F /* LeakLabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5CBE6EF710071525EC34A /* LeakLabViewModel.swift */; };
+		52B91BC9C1B2F33626ADA3CF /* DeepLinkFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98979FF8D9B36B68DAC31BF2 /* DeepLinkFlowTests.swift */; };
 		5405EB346ACE74877AF61CD4 /* AppCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E8C802C67B116F10C38026 /* AppCoordinatorTests.swift */; };
 		546C885C7A15039CC72640C4 /* MediaPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA48D21F7994B5C6B114FE84 /* MediaPickerViewModel.swift */; };
 		54E35E7F818C6B74612842D5 /* LeakDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC147B019B7928AFD0D473AC /* LeakDetector.swift */; };
@@ -73,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5C767D2DE815705116E50AF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1B68A8A5EF14FB53C01F945A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43529E2BC260415F844D3602;
+			remoteInfo = CoordinatorsDemo;
+		};
 		8BF3BA3C5A049872E8DF13DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1B68A8A5EF14FB53C01F945A /* Project object */;
@@ -116,8 +124,10 @@
 		8A1A046588B95F6E1D43358D /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		8B229626B3CCBAADBDBDCAB9 /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
 		8F44FD82F10A48ED78D0A244 /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
+		98979FF8D9B36B68DAC31BF2 /* DeepLinkFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkFlowTests.swift; sourceTree = "<group>"; };
 		9DC7EEEF35693A6632FF5240 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		9FA2D06486D557E7238E2AC8 /* LeakSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeakSettings.swift; sourceTree = "<group>"; };
+		A94AAF9C6734163871EAF4C6 /* CoordinatorsDemoUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CoordinatorsDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB11C9869298008372E58959 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		AC639EEE76BA85D4E406A9ED /* ComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewModel.swift; sourceTree = "<group>"; };
 		AE6C6EB80A15857405A914D5 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -167,6 +177,7 @@
 			children = (
 				35960F1F62C97F317BD25F8A /* CoordinatorsDemo.app */,
 				08CA797473B5C7D8D3D60477 /* CoordinatorsDemoTests.xctest */,
+				A94AAF9C6734163871EAF4C6 /* CoordinatorsDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +226,7 @@
 			children = (
 				FA64E051EE3152A8A269AE85 /* Sources */,
 				37E5F1C5A5F99E4DCD1E0EF9 /* Tests */,
+				BCF87E5760BCE423817B9813 /* UITests */,
 				0B04C4F8B31B25E19EE5B891 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -311,6 +323,14 @@
 				DB880EAE0D0345E96D693999 /* UIButton+Styles.swift */,
 			);
 			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		BCF87E5760BCE423817B9813 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				98979FF8D9B36B68DAC31BF2 /* DeepLinkFlowTests.swift */,
+			);
+			path = UITests;
 			sourceTree = "<group>";
 		};
 		C00EA4E68DDA059AD6AE4905 /* Domain */ = {
@@ -428,6 +448,24 @@
 			productReference = 35960F1F62C97F317BD25F8A /* CoordinatorsDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		88B65A4CE38A64C75C04A078 /* CoordinatorsDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36223F7632A3BC306ED09F3F /* Build configuration list for PBXNativeTarget "CoordinatorsDemoUITests" */;
+			buildPhases = (
+				7BB9C3072803141981F869B1 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EFE3AE7E18311FF0C0437DFA /* PBXTargetDependency */,
+			);
+			name = CoordinatorsDemoUITests;
+			packageProductDependencies = (
+			);
+			productName = CoordinatorsDemoUITests;
+			productReference = A94AAF9C6734163871EAF4C6 /* CoordinatorsDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		8DBA0B8A21AEDF4FFDCF1F09 /* CoordinatorsDemoTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6876EBA666AE0D40ADCD57E9 /* Build configuration list for PBXNativeTarget "CoordinatorsDemoTests" */;
@@ -455,6 +493,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					88B65A4CE38A64C75C04A078 = {
+						TestTargetID = 43529E2BC260415F844D3602;
+					};
 				};
 			};
 			buildConfigurationList = 138FE599046B52DB85566201 /* Build configuration list for PBXProject "CoordinatorsDemo" */;
@@ -473,6 +514,7 @@
 			targets = (
 				43529E2BC260415F844D3602 /* CoordinatorsDemo */,
 				8DBA0B8A21AEDF4FFDCF1F09 /* CoordinatorsDemoTests */,
+				88B65A4CE38A64C75C04A078 /* CoordinatorsDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -555,6 +597,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7BB9C3072803141981F869B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52B91BC9C1B2F33626ADA3CF /* DeepLinkFlowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -562,6 +612,11 @@
 			isa = PBXTargetDependency;
 			target = 43529E2BC260415F844D3602 /* CoordinatorsDemo */;
 			targetProxy = 8BF3BA3C5A049872E8DF13DB /* PBXContainerItemProxy */;
+		};
+		EFE3AE7E18311FF0C0437DFA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43529E2BC260415F844D3602 /* CoordinatorsDemo */;
+			targetProxy = 5C767D2DE815705116E50AF3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -648,6 +703,25 @@
 			};
 			name = Debug;
 		};
+		ACB65D284DBE293CD0F0A8C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ozgundogus.CoordinatorsDemoUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoordinatorsDemo;
+			};
+			name = Debug;
+		};
 		B6B8404C6B5E72A8701A667A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -704,6 +778,25 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoordinatorsDemo.app/CoordinatorsDemo";
 			};
 			name = Debug;
+		};
+		DB61CCB28A7CF58AABC325CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ozgundogus.CoordinatorsDemoUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoordinatorsDemo;
+			};
+			name = Release;
 		};
 		DEC57582A747F0D97CA043F2 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -778,6 +871,15 @@
 			buildConfigurations = (
 				C1F3D8C477282368E235E6F0 /* Debug */,
 				B6B8404C6B5E72A8701A667A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		36223F7632A3BC306ED09F3F /* Build configuration list for PBXNativeTarget "CoordinatorsDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACB65D284DBE293CD0F0A8C4 /* Debug */,
+				DB61CCB28A7CF58AABC325CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

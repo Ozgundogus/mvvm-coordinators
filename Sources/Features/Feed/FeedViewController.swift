@@ -13,6 +13,7 @@ final class FeedViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "square.and.pencil"),
             primaryAction: UIAction { [weak self] _ in self?.viewModel.composeTapped() })
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "feed.compose"
     }
 
     required init?(coder: NSCoder) { fatalError("not used") }

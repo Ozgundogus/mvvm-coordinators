@@ -39,14 +39,27 @@ targets:
         SWIFT_VERSION: "5.10"
         CODE_SIGNING_ALLOWED: "NO"
         GENERATE_INFOPLIST_FILE: "YES"
+  CoordinatorsDemoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: CoordinatorsDemo
+    settings:
+      base:
+        SWIFT_VERSION: "5.10"
+        CODE_SIGNING_ALLOWED: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
+        TEST_TARGET_NAME: CoordinatorsDemo
 schemes:
   CoordinatorsDemo:
     build:
       targets:
         CoordinatorsDemo: all
         CoordinatorsDemoTests: [test]
+        CoordinatorsDemoUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
-      targets: [CoordinatorsDemoTests]
+      targets: [CoordinatorsDemoTests, CoordinatorsDemoUITests]

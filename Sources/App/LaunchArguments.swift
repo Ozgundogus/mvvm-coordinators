@@ -27,6 +27,6 @@ struct LaunchArguments {
         screen = defaults.string(forKey: "screen").flatMap(Screen.init(rawValue:))
         leak = defaults.string(forKey: "leak").flatMap(LeakScenario.init(rawValue:))
         forceOnboarding = defaults.bool(forKey: "onboarding")
-        autoLogin = defaults.bool(forKey: "autoLogin") || deepLink != nil || screen != nil || leak != nil
+        autoLogin = defaults.bool(forKey: "autoLogin") || screen != nil || leak != nil
     }
 }

@@ -38,11 +38,11 @@ final class MainCoordinator: BaseCoordinator, Coordinator {
         tabBar.viewControllers = navigations
     }
 
-    func handle(_ link: DeepLink) {
+    func handle(_ link: DeepLink, animated: Bool) {
         switch link {
         case .post, .comments:
             tabBar.selectedIndex = 0
-            feed.handle(link)
+            feed.handle(link, animated: animated)
         case .profile:
             tabBar.selectedIndex = 1
         }

@@ -32,9 +32,12 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
         applyLaunchArguments()
     }
 
+    /// The one entry point for anything that arrives from outside: a URL, a
+    /// notification tap, a launch argument. Warm app: routed now, animated. No
+    /// signed-in app yet: parked, delivered once there is one.
     func handle(_ link: DeepLink) {
         if let main {
-            main.handle(link)
+            main.handle(link, animated: true)
         } else {
             pendingLink = link
         }
@@ -74,7 +77,7 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
         self.main = main
         if let link = pendingLink {
             pendingLink = nil
-            main.handle(link)
+            main.handle(link, animated: false)
         }
     }
 

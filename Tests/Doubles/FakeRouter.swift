@@ -20,7 +20,9 @@ final class FakeRouter: Routing {
 
     func setStack(_ viewControllers: [UIViewController], animated: Bool) {
         setStackCalls += 1
+        let removed = stack.filter { old in !viewControllers.contains { $0 === old } }
         stack = viewControllers
+        removed.forEach { completions.removeValue(forKey: ObjectIdentifier($0))?() }
     }
 
     func popToRoot(animated: Bool) {
