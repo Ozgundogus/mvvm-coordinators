@@ -35,6 +35,20 @@
                ReferencedContainer = "container:CoordinatorsDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "88B65A4CE38A64C75C04A078"
+               BuildableName = "CoordinatorsDemoUITests.xctest"
+               BlueprintName = "CoordinatorsDemoUITests"
+               ReferencedContainer = "container:CoordinatorsDemo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -61,6 +75,17 @@
                BlueprintIdentifier = "8DBA0B8A21AEDF4FFDCF1F09"
                BuildableName = "CoordinatorsDemoTests.xctest"
                BlueprintName = "CoordinatorsDemoTests"
+               ReferencedContainer = "container:CoordinatorsDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "88B65A4CE38A64C75C04A078"
+               BuildableName = "CoordinatorsDemoUITests.xctest"
+               BlueprintName = "CoordinatorsDemoUITests"
                ReferencedContainer = "container:CoordinatorsDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>

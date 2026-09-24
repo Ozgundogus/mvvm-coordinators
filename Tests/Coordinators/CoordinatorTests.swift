@@ -76,12 +76,32 @@ final class CoordinatorTests: XCTestCase {
         let feed = makeFeed(router: router)
         feed.start()
 
-        feed.handle(.comments(postID: 103))
+        feed.handle(.comments(postID: 103), animated: false)
 
         XCTAssertEqual(router.setStackCalls, 2, "start + one deep link")
         XCTAssertEqual(router.stack.count, 3, "feed, post, comments")
         XCTAssertTrue(router.stack[1] is PostDetailViewController)
         XCTAssertTrue(router.stack[2] is CommentsViewController)
         XCTAssertEqual(router.pushCalls, 0, "no chained pushes, no delays")
+    }
+
+    func testDeepLinkEndsTheFlowsItReplaces() {
+        let router = FakeRouter()
+        let feed = makeFeed(router: router)
+        feed.start()
+        router.tapFirstAvatar()
+        (router.stack.first as! FeedViewController).viewModel.composeTapped()
+        XCTAssertEqual(feed.children.count, 2, "a pushed profile and a presented compose")
+
+        feed.handle(.post(id: 101), animated: false)
+
+        XCTAssertEqual(feed.children.count, 0, "the sheet is dismissed, the profile is popped by the stack replacement")
+        XCTAssertNil(router.presented)
+        XCTAssertEqual(router.stack.count, 2, "feed, post")
+    }
+
+    func testNotificationPayloadIsJustAnotherLink() {
+        XCTAssertEqual(DeepLink(userInfo: ["link": "coordinators://post/103/comments"]), .comments(postID: 103))
+        XCTAssertNil(DeepLink(userInfo: ["aps": ["alert": "hi"]]))
     }
 }

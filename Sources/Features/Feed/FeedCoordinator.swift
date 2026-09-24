@@ -63,18 +63,23 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
 
     // MARK: Deep links
 
-    /// One `setStack`, one transition; no chained pushes.
-    func handle(_ link: DeepLink) {
+    /// One `setStack`, one transition; no chained pushes. Anything this tab had
+    /// open ends first: a sheet is dismissed, a pushed child flow is popped by the
+    /// stack replacement, and both come back through `childDidFinish`.
+    func handle(_ link: DeepLink, animated: Bool) {
         guard let root = router.rootViewController else { return }
+        children.compactMap { $0 as? ComposeCoordinator }.forEach { $0.dismiss() }
+        let actions = postActions
         switch link {
         case .post(let id):
             guard let post = repository.post(id: id) else { return }
-            router.setStack([root, screens.makeDetail(for: post, actions: postActions)], animated: true)
+            let detail = screens.makeDetail(for: post, actions: actions)
+            router.setStack([root, detail], animated: animated)
         case .comments(let id):
             guard let post = repository.post(id: id) else { return }
-            router.setStack([root,
-                             screens.makeDetail(for: post, actions: postActions),
-                             screens.makeComments(for: post, actions: postActions)], animated: true)
+            let detail = screens.makeDetail(for: post, actions: actions)
+            let comments = screens.makeComments(for: post, actions: actions)
+            router.setStack([root, detail, comments], animated: animated)
         case .profile:
             break
         }
