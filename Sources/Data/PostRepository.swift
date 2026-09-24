@@ -1,6 +1,6 @@
-import UIKit
+import Foundation
 
-protocol PostProviding: AnyObject {
+protocol PostRepository: AnyObject {
     var users: [User] { get }
     var posts: [Post] { get }
     func post(id: Int) -> Post?
@@ -8,13 +8,13 @@ protocol PostProviding: AnyObject {
     func comments(for post: Post) -> [Comment]
 }
 
-final class SampleStore: PostProviding {
+final class SamplePostRepository: PostRepository {
     let users: [User] = [
-        User(id: 1, name: "Ada Lovelace", handle: "ada", color: .systemIndigo, bio: "Writes programs for machines that don't exist yet."),
-        User(id: 2, name: "Grace Hopper", handle: "grace", color: .systemTeal, bio: "Nanoseconds, compilers, and one very famous moth."),
-        User(id: 3, name: "Alan Turing", handle: "alan", color: .systemOrange, bio: "Morphogenesis, machines, and long-distance running."),
-        User(id: 4, name: "Margaret Hamilton", handle: "margaret", color: .systemPink, bio: "Priority scheduling, before it was called that."),
-        User(id: 5, name: "Dennis Ritchie", handle: "dmr", color: .systemGreen, bio: "Made a language. Then made an OS in it."),
+        User(id: 1, name: "Ada Lovelace", handle: "ada", avatar: .indigo, bio: "Writes programs for machines that don't exist yet."),
+        User(id: 2, name: "Grace Hopper", handle: "grace", avatar: .teal, bio: "Nanoseconds, compilers, and one very famous moth."),
+        User(id: 3, name: "Alan Turing", handle: "alan", avatar: .orange, bio: "Morphogenesis, machines, and long-distance running."),
+        User(id: 4, name: "Margaret Hamilton", handle: "margaret", avatar: .pink, bio: "Priority scheduling, before it was called that."),
+        User(id: 5, name: "Dennis Ritchie", handle: "dmr", avatar: .green, bio: "Made a language. Then made an OS in it."),
     ]
 
     private(set) lazy var posts: [Post] = [

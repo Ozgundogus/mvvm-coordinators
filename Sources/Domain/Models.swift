@@ -1,10 +1,14 @@
-import UIKit
+import Foundation
+
+enum AvatarColor: String, Hashable, CaseIterable {
+    case indigo, teal, orange, pink, green
+}
 
 struct User: Hashable {
     let id: Int
     let name: String
     let handle: String
-    let color: UIColor
+    let avatar: AvatarColor
     let bio: String
 
     var initials: String {
@@ -31,4 +35,9 @@ struct Comment: Hashable {
     let author: User
     let text: String
     let minutesAgo: Int
+}
+
+struct Session: Equatable {
+    let user: User
+    let token: String
 }

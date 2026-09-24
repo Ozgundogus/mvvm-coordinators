@@ -27,7 +27,7 @@ final class AvatarView: UIView {
     required init?(coder: NSCoder) { fatalError("not used") }
 
     func configure(with user: User) {
-        backgroundColor = user.color
+        backgroundColor = user.avatar.uiColor
         label.text = user.initials
     }
 
