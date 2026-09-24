@@ -1,0 +1,52 @@
+name: CoordinatorsDemo
+options:
+  bundleIdPrefix: dev.ozgundogus
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+targets:
+  CoordinatorsDemo:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    info:
+      path: Sources/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        CFBundleURLTypes:
+          - CFBundleURLName: dev.ozgundogus.coordinators
+            CFBundleURLSchemes: [coordinators]
+    settings:
+      base:
+        SWIFT_VERSION: "5.10"
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGNING_ALLOWED: "NO"
+        GENERATE_INFOPLIST_FILE: "NO"
+  CoordinatorsDemoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: CoordinatorsDemo
+    settings:
+      base:
+        SWIFT_VERSION: "5.10"
+        CODE_SIGNING_ALLOWED: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
+schemes:
+  CoordinatorsDemo:
+    build:
+      targets:
+        CoordinatorsDemo: all
+        CoordinatorsDemoTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [CoordinatorsDemoTests]
