@@ -1,10 +1,7 @@
 import UIKit
 
-/// The only object that talks to UIKit navigation. It keeps one completion per
-/// screen and fires it when that screen goes away — by any route.
-///
-/// That completion is what lets a coordinator's lifetime follow the *screen*
-/// instead of a view model's `deinit` or a timer.
+/// The only object that touches UIKit navigation. One completion per screen,
+/// fired when that screen leaves the stack by any route.
 final class Router: NSObject, Routing {
     let navigationController: UINavigationController
     private var completions: [ObjectIdentifier: () -> Void] = [:]
@@ -61,9 +58,7 @@ final class Router: NSObject, Routing {
 }
 
 extension Router: UINavigationControllerDelegate {
-    /// After any transition, whatever is no longer in `viewControllers` is gone —
-    /// one pop, popToRoot, or a `setViewControllers` that dropped screens. Sweep
-    /// their completions.
+    /// One pop, popToRoot, or a replaced stack all look the same here.
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController,
                               animated: Bool) {
@@ -72,7 +67,7 @@ extension Router: UINavigationControllerDelegate {
 }
 
 extension Router: UIAdaptivePresentationControllerDelegate {
-    /// Swipe-to-dismiss on a sheet never calls your dismiss code. This does.
+    /// Swipe-to-dismiss never calls `dismiss`; this does.
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         runCompletion(for: presentationController.presentedViewController)
     }

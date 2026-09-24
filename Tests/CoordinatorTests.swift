@@ -1,9 +1,6 @@
 import XCTest
 @testable import CoordinatorsDemo
 
-/// Coordinators depend on `Routing`, not on UIKit navigation. That's what lets these
-/// tests run the real flows with a fake router: no simulator screen, no animation,
-/// and every pop is a function call we control.
 final class CoordinatorTests: XCTestCase {
 
     // MARK: Ownership
@@ -75,7 +72,6 @@ final class SpyCoordinator: BaseCoordinator, Coordinator {
     }
 }
 
-/// Records what a coordinator asks for and lets the test "pop" screens by hand.
 final class FakeRouter: Routing {
     private(set) var stack: [UIViewController] = []
     private var completions: [ObjectIdentifier: () -> Void] = [:]

@@ -1,8 +1,5 @@
 import UIKit
 
-/// Root of the tree. Owns the window and exactly one child at a time: the auth flow
-/// or the signed-in app. Switching between them is the moment an entire subtree has
-/// to die — every coordinator, every screen, every view model.
 final class AppCoordinator: BaseCoordinator, Coordinator {
     private let window: UIWindow
     private let store: PostProviding
@@ -10,8 +7,7 @@ final class AppCoordinator: BaseCoordinator, Coordinator {
     private var main: MainCoordinator?
     private var pendingLink: DeepLink?
 
-    /// Leak 4 in the lab: on sign-out, keep a reference to the retired tree.
-    /// Everything under it stays alive with it.
+    /// Leak scenario: keep a reference to the retired tree on sign-out.
     private var keepOldTreeOnSignOut = false
     private var retiredTrees: [MainCoordinator] = []
 

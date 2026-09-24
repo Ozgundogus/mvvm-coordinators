@@ -1,9 +1,5 @@
 import UIKit
 
-/// A modal flow with its own navigation stack and its own child (the media picker).
-/// It ends in three ways — Post, Cancel, or the sheet swiped down — and all three go
-/// through the same `finish()`. The picker inside it is a coordinator inside a
-/// coordinator: a child of a child, and it is removed the same way.
 final class ComposeCoordinator: BaseCoordinator, Coordinator {
     private let presenter: Routing
     private let navigation = UINavigationController()

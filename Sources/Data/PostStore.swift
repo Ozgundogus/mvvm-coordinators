@@ -1,7 +1,5 @@
 import UIKit
 
-/// The data the flows need, behind a protocol so coordinators and screens never
-/// reach for a concrete store — and tests can hand them a tiny one.
 protocol PostProviding: AnyObject {
     var users: [User] { get }
     var posts: [Post] { get }

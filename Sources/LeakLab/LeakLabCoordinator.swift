@@ -1,7 +1,5 @@
 import UIKit
 
-/// Runs the lab's flows with a leak switched on or off, so you can reproduce it,
-/// look at it in Memory Graph, flip the switch, and watch it go.
 final class LeakLabCoordinator: BaseCoordinator, Coordinator {
     private let router: Routing
     private let store: PostProviding
@@ -38,8 +36,6 @@ final class LeakLabCoordinator: BaseCoordinator, Coordinator {
         }
     }
 
-    /// Launch-argument entry point: switch the leak on, run the flow, then pop it
-    /// after a beat so the object is provably done and provably still alive.
     func reproduce(_ scenario: LeakScenario) {
         setEnabled(true, for: scenario)
         run(scenario)

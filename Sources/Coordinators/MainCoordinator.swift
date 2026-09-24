@@ -4,8 +4,6 @@ protocol MainCoordinatorDelegate: AnyObject {
     func mainDidSignOut(_ coordinator: MainCoordinator)
 }
 
-/// The signed-in app: a tab bar with one coordinator per tab. Deep links enter here
-/// and are handed to the tab that owns the destination.
 final class MainCoordinator: BaseCoordinator, Coordinator {
     let tabBar = UITabBarController()
     weak var delegate: MainCoordinatorDelegate?

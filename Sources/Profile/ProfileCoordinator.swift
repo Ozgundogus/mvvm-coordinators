@@ -1,7 +1,6 @@
 import UIKit
 
-/// The same flow lives in two places: as a tab (root of its own stack) and as a child
-/// pushed from the feed. Same coordinator, different parent, different `embedded`.
+/// Used both as a tab root and as a child pushed from the feed (`embedded`).
 final class ProfileCoordinator: BaseCoordinator, Coordinator {
     var onSignOut: (() -> Void)?
     private let user: User
@@ -24,7 +23,6 @@ final class ProfileCoordinator: BaseCoordinator, Coordinator {
         profile.onSelectPost = { [weak self] post in self?.showPost(post) }
         profile.onSignOut = { [weak self] in self?.onSignOut?() }
         if embedded {
-            // Pushed as a child: when this screen pops, the flow is over.
             router.push(profile, onPop: { [weak self] in self?.finish() })
         } else {
             router.setStack([profile], animated: false)

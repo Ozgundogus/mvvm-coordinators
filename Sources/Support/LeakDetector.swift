@@ -1,8 +1,6 @@
 import Foundation
 
-/// Debug-only: after a flow ends, the objects that made it up should be gone. If one
-/// is still alive a moment later, say so loudly. This catches the class of bug that
-/// Memory Graph shows you — without opening Memory Graph.
+/// Debug-only. After a flow ends, checks that its objects are actually gone.
 protocol LeakReporting: AnyObject {
     func report(_ message: String)
 }
@@ -10,8 +8,7 @@ protocol LeakReporting: AnyObject {
 final class LeakDetector {
     static let shared = LeakDetector()
 
-    /// Whoever wants to show leaks on screen (the Leak Lab does). Weak, so the
-    /// detector never keeps a screen alive — that would be a joke at its own expense.
+    /// Weak, so the detector cannot itself keep a screen alive.
     weak var reporter: LeakReporting?
 
     private init() {}

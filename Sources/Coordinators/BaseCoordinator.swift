@@ -1,8 +1,7 @@
 import Foundation
 
-/// Storage and a `deinit` log, nothing more. It deliberately does *not* conform to
-/// `Coordinator`: each concrete coordinator declares the conformance itself, so
-/// `start()` has to be written rather than inherited as a `fatalError` stub.
+/// Does not conform to `Coordinator` on purpose: each subclass declares the
+/// conformance itself, so a missing `start()` is a compile error.
 class BaseCoordinator {
     var children: [Coordinator] = []
     weak var parent: Coordinator?

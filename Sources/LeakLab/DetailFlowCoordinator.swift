@@ -1,7 +1,5 @@
 import UIKit
 
-/// A one-screen flow used by the lab's scenarios. With `strongCycle` on, the view
-/// model's closure captures the coordinator strongly — the textbook cycle.
 final class DetailFlowCoordinator: BaseCoordinator, Coordinator {
     var onFinished: (() -> Void)?
     private let router: Routing

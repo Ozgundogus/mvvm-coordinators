@@ -1,8 +1,5 @@
 import Foundation
 
-/// Everything the app can be told at launch, parsed once. Used by the article's
-/// screenshots and by anyone who wants to reproduce a leak without tapping through.
-///
 ///   -autoLogin YES
 ///   -deeplink coordinators://post/103/comments
 ///   -screen compose | picker

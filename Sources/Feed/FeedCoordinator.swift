@@ -1,12 +1,9 @@
 import UIKit
 
-/// One tab's flow: feed → post → comments, an author's profile from any card, and a
-/// modal compose flow that is a child coordinator with its own lifetime.
 final class FeedCoordinator: BaseCoordinator, Coordinator {
     private let router: Routing
     private let store: PostProviding
 
-    /// Only the tab bar needs the concrete navigation controller.
     var navigationController: UINavigationController { (router as! Router).navigationController }
 
     init(router: Routing, store: PostProviding) {
@@ -38,8 +35,6 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
         router.push(makeComments(for: post))
     }
 
-    /// A profile can be reached from three screens. It's the same child flow every
-    /// time, and this coordinator is its parent every time.
     private func showProfile(of user: User) {
         let profile = ProfileCoordinator(user: user, router: router, store: store, embedded: true)
         addChild(profile)
@@ -54,8 +49,7 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
         compose.start()
     }
 
-    /// Screenshot helper (`-screen compose|picker`): open the modal flow and,
-    /// optionally, push its child flow once the sheet is up.
+    /// `-screen compose|picker` launch argument.
     func openComposeForScreenshot(showPicker: Bool) {
         let compose = ComposeCoordinator(presenter: router, replyingTo: store.posts[1])
         addChild(compose)
@@ -66,8 +60,7 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
 
     // MARK: Deep links
 
-    /// Build the whole stack and set it once: one transition, one animation, no
-    /// "wait for the previous push to finish" guesses.
+    /// One `setStack`, one transition; no chained pushes.
     func handle(_ link: DeepLink) {
         guard let root = router.rootViewController else { return }
         switch link {

@@ -4,8 +4,6 @@ protocol AuthCoordinatorDelegate: AnyObject {
     func authCoordinator(_ coordinator: AuthCoordinator, didSignIn user: User)
 }
 
-/// Welcome → pick an account → signed in. The coordinator reports the result to its
-/// delegate and is then removed by the parent; it never removes itself.
 final class AuthCoordinator: BaseCoordinator, Coordinator {
     weak var delegate: AuthCoordinatorDelegate?
     private let router: Routing

@@ -1,6 +1,5 @@
 import UIKit
 
-/// A gradient stand-in for a photo, so the demo needs no image assets.
 final class PostImageView: UIView {
     private let gradient = CAGradientLayer()
 

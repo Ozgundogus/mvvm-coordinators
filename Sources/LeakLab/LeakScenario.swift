@@ -1,17 +1,13 @@
 import Foundation
 
-/// The four ways a coordinator outlives its flow that the lab can reproduce.
-/// `rawValue` doubles as the `-leak` launch argument.
 enum LeakScenario: String, CaseIterable {
     /// The child is added but never removed when its flow ends.
     case forgetChild
-    /// The view model captures the coordinator strongly; the coordinator holds the
-    /// view model through the screen. A cycle.
+    /// The view model's closure captures the coordinator strongly.
     case closureCycle
-    /// A coordinator with no parent, kept alive by a static "retained" slot the way
-    /// a deep-link manager might do it.
+    /// A parentless coordinator held by a static slot.
     case retainedSlot
-    /// Sign out, but keep a reference to the retired tree. Everything under it lives.
+    /// The retired tree is still referenced after sign-out.
     case signOut
 
     var symbol: String {
