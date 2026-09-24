@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Layout: `Core` / `Domain` / `Data` / `Features` / `DesignSystem`; one folder per flow with Coordinator + ViewModel + ViewController
+- MVVM: a view model for every screen, bound with Combine; view models never import UIKit (`AvatarColor` replaces `UIColor` in the domain)
+- Onboarding flow (first launch), `AuthService` with async sign-in and a locked account, `Session` / `SessionStore`
+- `AppCoordinator` owns one child at a time and swaps it when the session changes; sign-out is `session.end()`
+- `MainCoordinator` no longer exposes its children; `Router` is created per tab and never cast back from `Routing`
+- Leak Lab: flows end with `finish()` / `childDidFinish` like everything else; a fifth scenario, `subscriptionCycle` (a `sink` without `[weak self]`)
+- Tests: 15, covering coordinators, `AppCoordinator` root swaps, deep links parked across sign-in, and view models
+
 ## 1.0.0 — 2026-09-24
 
 Companion release for *Who Owns a Coordinator? MVVM-C on iOS, Part 1*.
