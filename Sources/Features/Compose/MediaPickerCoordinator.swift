@@ -10,11 +10,11 @@ final class MediaPickerCoordinator: BaseCoordinator, Coordinator {
     }
 
     func start() {
-        let picker = MediaPickerViewController()
-        picker.onPick = { [weak self] seed in
+        let viewModel = MediaPickerViewModel()
+        viewModel.onPick = { [weak self] seed in
             self?.onPicked?(seed)
             self?.router.popToRoot()
         }
-        router.push(picker, onPop: { [weak self] in self?.finish() })
+        router.push(MediaPickerViewController(viewModel: viewModel), onPop: { [weak self] in self?.finish() })
     }
 }

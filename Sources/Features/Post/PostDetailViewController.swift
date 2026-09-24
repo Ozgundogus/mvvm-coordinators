@@ -1,13 +1,10 @@
 import UIKit
 
 final class PostDetailViewController: UIViewController {
-    var onShowComments: (() -> Void)?
-    var onSelectAuthor: (() -> Void)?
-    var onReply: (() -> Void)?
-    private let post: Post
+    private let viewModel: PostDetailViewModel
 
-    init(post: Post) {
-        self.post = post
+    init(viewModel: PostDetailViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         title = "Post"
         navigationItem.largeTitleDisplayMode = .never
@@ -22,11 +19,11 @@ final class PostDetailViewController: UIViewController {
         view.backgroundColor = .systemGroupedBackground
 
         let card = PostCardView()
-        card.configure(with: post)
-        card.onAvatarTap = { [weak self] in self?.onSelectAuthor?() }
+        card.configure(with: viewModel.post)
+        card.onAvatarTap = { [weak self] in self?.viewModel.authorTapped() }
 
-        let comments = UIButton.filled("\(post.comments) comments", symbol: "bubble.left.and.bubble.right") { [weak self] in self?.onShowComments?() }
-        let reply = UIButton.tinted("Reply", symbol: "arrowshape.turn.up.left") { [weak self] in self?.onReply?() }
+        let comments = UIButton.filled(viewModel.commentsButtonTitle, symbol: "bubble.left.and.bubble.right") { [weak self] in self?.viewModel.showCommentsTapped() }
+        let reply = UIButton.tinted("Reply", symbol: "arrowshape.turn.up.left") { [weak self] in self?.viewModel.replyTapped() }
         let actions = UIStackView(arrangedSubviews: [comments, reply])
         actions.spacing = 12
         actions.distribution = .fillEqually

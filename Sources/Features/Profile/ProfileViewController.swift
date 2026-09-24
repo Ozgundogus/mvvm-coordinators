@@ -1,23 +1,21 @@
+import Combine
 import UIKit
 
 final class ProfileViewController: UITableViewController {
-    var onSelectPost: ((Post) -> Void)?
-    var onSignOut: (() -> Void)?
-    private let user: User
-    private let posts: [Post]
-    private let showsSignOut: Bool
+    private let viewModel: ProfileViewModel
+    private var cancellables = Set<AnyCancellable>()
+    private var posts: [Post] = []
+    private let statsLabel = UILabel()
 
-    init(user: User, posts: [Post], showsSignOut: Bool) {
-        self.user = user
-        self.posts = posts
-        self.showsSignOut = showsSignOut
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
         super.init(style: .plain)
-        title = showsSignOut ? "Profile" : user.name
-        navigationItem.largeTitleDisplayMode = showsSignOut ? .always : .never
-        if showsSignOut {
+        title = viewModel.title
+        navigationItem.largeTitleDisplayMode = viewModel.showsSignOut ? .always : .never
+        if viewModel.showsSignOut {
             navigationItem.rightBarButtonItem = UIBarButtonItem(
                 image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
-                primaryAction: UIAction { [weak self] _ in self?.onSignOut?() })
+                primaryAction: UIAction { [weak self] _ in self?.viewModel.signOut() })
         }
     }
 
@@ -31,28 +29,39 @@ final class ProfileViewController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseIdentifier)
         tableView.tableHeaderView = makeHeader()
+
+        viewModel.$posts
+            .sink { [weak self] posts in
+                guard let self else { return }
+                self.posts = posts
+                self.statsLabel.text = self.viewModel.stats
+                self.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+        viewModel.$isSigningOut
+            .sink { [weak self] busy in self?.navigationItem.rightBarButtonItem?.isEnabled = !busy }
+            .store(in: &cancellables)
+        viewModel.load()
     }
 
     private func makeHeader() -> UIView {
         let avatar = AvatarView(size: 72)
-        avatar.configure(with: user)
+        avatar.configure(with: viewModel.user)
         let name = UILabel()
-        name.text = user.name
+        name.text = viewModel.user.name
         name.font = .systemFont(ofSize: 22, weight: .bold)
         let handle = UILabel()
-        handle.text = "@\(user.handle)"
+        handle.text = viewModel.handle
         handle.textColor = .secondaryLabel
         let bio = UILabel()
-        bio.text = user.bio
+        bio.text = viewModel.user.bio
         bio.numberOfLines = 0
         bio.font = .preferredFont(forTextStyle: .body)
         bio.textAlignment = .center
-        let stats = UILabel()
-        stats.text = "\(posts.count) posts · \(posts.reduce(0) { $0 + $1.likes }) likes"
-        stats.font = .preferredFont(forTextStyle: .footnote)
-        stats.textColor = .secondaryLabel
+        statsLabel.font = .preferredFont(forTextStyle: .footnote)
+        statsLabel.textColor = .secondaryLabel
 
-        let stack = UIStackView(arrangedSubviews: [avatar, name, handle, bio, stats])
+        let stack = UIStackView(arrangedSubviews: [avatar, name, handle, bio, statsLabel])
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 6
@@ -80,6 +89,6 @@ final class ProfileViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        onSelectPost?(posts[indexPath.row])
+        viewModel.selectPost(at: indexPath.row)
     }
 }

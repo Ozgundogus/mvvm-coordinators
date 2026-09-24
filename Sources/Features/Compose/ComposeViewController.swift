@@ -1,21 +1,23 @@
+import Combine
 import UIKit
 
 final class ComposeViewController: UIViewController {
-    var onDone: (() -> Void)?
-    var onAttach: (() -> Void)?
-    private let replyingTo: Post?
+    private let viewModel: ComposeViewModel
+    private var cancellables = Set<AnyCancellable>()
     private let textView = UITextView()
     private let attachment = PostImageView()
     private let counter = UILabel()
+    private let postButton: UIBarButtonItem
 
-    init(replyingTo: Post?) {
-        self.replyingTo = replyingTo
+    init(viewModel: ComposeViewModel) {
+        self.viewModel = viewModel
+        self.postButton = UIBarButtonItem(title: "Post")
         super.init(nibName: nil, bundle: nil)
-        title = replyingTo == nil ? "New post" : "Reply"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction { [weak self] _ in self?.onDone?() })
-        let post = UIBarButtonItem(title: "Post", primaryAction: UIAction { [weak self] _ in self?.onDone?() })
-        post.style = .done
-        navigationItem.rightBarButtonItem = post
+        title = viewModel.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction { [weak self] _ in self?.viewModel.cancel() })
+        postButton.style = .done
+        postButton.primaryAction = UIAction(title: "Post") { [weak self] _ in self?.viewModel.post() }
+        navigationItem.rightBarButtonItem = postButton
     }
 
     required init?(coder: NSCoder) { fatalError("not used") }
@@ -30,17 +32,16 @@ final class ComposeViewController: UIViewController {
         context.font = .preferredFont(forTextStyle: .footnote)
         context.textColor = .secondaryLabel
         context.numberOfLines = 2
-        context.text = replyingTo.map { "Replying to @\($0.author.handle): “\($0.text.prefix(60))…”" } ?? "Share something with the feed"
+        context.text = viewModel.context
 
         textView.font = .preferredFont(forTextStyle: .title3)
         textView.delegate = self
-        textView.text = "The router's onPop is the part I always forget. Writing it down this time."
+        textView.text = viewModel.text
         attachment.isHidden = true
         counter.font = .preferredFont(forTextStyle: .caption1)
         counter.textColor = .secondaryLabel
-        updateCounter()
 
-        let attach = UIButton.tinted("Add photo", symbol: "photo") { [weak self] in self?.onAttach?() }
+        let attach = UIButton.tinted("Add photo", symbol: "photo") { [weak self] in self?.viewModel.attachTapped() }
         let bar = UIStackView(arrangedSubviews: [attach, UIView(), counter])
         bar.alignment = .center
 
@@ -56,18 +57,26 @@ final class ComposeViewController: UIViewController {
             textView.heightAnchor.constraint(equalToConstant: 160),
             attachment.heightAnchor.constraint(equalToConstant: 160),
         ])
-    }
 
-    func attach(seed: Int) {
-        attachment.configure(seed: seed)
-        attachment.isHidden = false
-    }
-
-    private func updateCounter() {
-        counter.text = "\(textView.text.count) / 280"
+        viewModel.$text
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.counter.text = self.viewModel.counter
+                self.postButton.isEnabled = self.viewModel.canPost
+            }
+            .store(in: &cancellables)
+        viewModel.$attachmentSeed
+            .sink { [weak self] seed in
+                guard let self else { return }
+                if let seed { self.attachment.configure(seed: seed) }
+                self.attachment.isHidden = seed == nil
+            }
+            .store(in: &cancellables)
     }
 }
 
 extension ComposeViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) { updateCounter() }
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.text = textView.text
+    }
 }

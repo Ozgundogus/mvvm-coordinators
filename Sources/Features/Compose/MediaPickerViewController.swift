@@ -1,10 +1,11 @@
 import UIKit
 
 final class MediaPickerViewController: UICollectionViewController {
-    var onPick: ((Int) -> Void)?
+    private let viewModel: MediaPickerViewModel
     private static let reuseIdentifier = "MediaCell"
 
-    init() {
+    init(viewModel: MediaPickerViewModel) {
+        self.viewModel = viewModel
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 110, height: 110)
         layout.minimumInteritemSpacing = 8
@@ -24,13 +25,13 @@ final class MediaPickerViewController: UICollectionViewController {
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Self.reuseIdentifier)
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 12 }
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { viewModel.seeds.count }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Self.reuseIdentifier, for: indexPath)
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
         let image = PostImageView()
-        image.configure(seed: Self.seed(for: indexPath))
+        image.configure(seed: viewModel.seeds[indexPath.item])
         cell.contentView.addSubview(image)
         NSLayoutConstraint.activate([
             image.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
@@ -42,8 +43,6 @@ final class MediaPickerViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        onPick?(Self.seed(for: indexPath))
+        viewModel.pick(at: indexPath.item)
     }
-
-    private static func seed(for indexPath: IndexPath) -> Int { indexPath.item * 3 + 1 }
 }

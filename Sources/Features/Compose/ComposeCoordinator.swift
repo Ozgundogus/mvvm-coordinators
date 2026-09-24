@@ -5,7 +5,7 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
     private let navigation = UINavigationController()
     private lazy var router: Routing = Router(navigationController: navigation)
     private let replyingTo: Post?
-    private weak var composeScreen: ComposeViewController?
+    private var viewModel: ComposeViewModel?
 
     init(presenter: Routing, replyingTo: Post?) {
         self.presenter = presenter
@@ -14,11 +14,12 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
     }
 
     func start() {
-        let compose = ComposeViewController(replyingTo: replyingTo)
-        compose.onDone = { [weak self] in self?.close() }
-        compose.onAttach = { [weak self] in self?.showMediaPicker() }
-        composeScreen = compose
-        navigation.viewControllers = [compose]
+        let viewModel = ComposeViewModel(replyingTo: replyingTo,
+                                         draft: "The router's onPop is the part I always forget. Writing it down this time.")
+        viewModel.onDone = { [weak self] in self?.close() }
+        viewModel.onAttach = { [weak self] in self?.showMediaPicker() }
+        self.viewModel = viewModel
+        navigation.viewControllers = [ComposeViewController(viewModel: viewModel)]
         navigation.sheetPresentationController?.detents = [.large()]
         presenter.present(navigation, onDismiss: { [weak self] in self?.finish() })
     }
@@ -30,7 +31,7 @@ final class ComposeCoordinator: BaseCoordinator, Coordinator {
 
     func showMediaPicker() {
         let picker = MediaPickerCoordinator(router: router)
-        picker.onPicked = { [weak self] seed in self?.composeScreen?.attach(seed: seed) }
+        picker.onPicked = { [weak self] seed in self?.viewModel?.attach(seed: seed) }
         addChild(picker)
         picker.start()
     }
