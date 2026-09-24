@@ -69,15 +69,16 @@ final class FeedCoordinator: BaseCoordinator, Coordinator {
     func handle(_ link: DeepLink, animated: Bool) {
         guard let root = router.rootViewController else { return }
         children.compactMap { $0 as? ComposeCoordinator }.forEach { $0.dismiss() }
+        let actions = postActions
         switch link {
         case .post(let id):
             guard let post = repository.post(id: id) else { return }
-            let detail = screens.makeDetail(for: post, actions: postActions)
+            let detail = screens.makeDetail(for: post, actions: actions)
             router.setStack([root, detail], animated: animated)
         case .comments(let id):
             guard let post = repository.post(id: id) else { return }
-            let detail = screens.makeDetail(for: post, actions: postActions)
-            let comments = screens.makeComments(for: post, actions: postActions)
+            let detail = screens.makeDetail(for: post, actions: actions)
+            let comments = screens.makeComments(for: post, actions: actions)
             router.setStack([root, detail, comments], animated: animated)
         case .profile:
             break
