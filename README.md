@@ -8,6 +8,7 @@ It backs a series of articles on MVVM-C ownership and lifetime. Every snippet in
 |---|---|
 | [Who Owns a Coordinator? MVVM-C on iOS, Part 1](https://medium.com/@canozgundogus/who-owns-a-coordinator-mvvm-c-on-ios-part-1-e98323b5d904) | [`v1.0.0`](https://github.com/Ozgundogus/mvvm-coordinators/tree/v1.0.0) |
 | [Where a Coordinator Comes From: MVVM-C on iOS, Part 2](https://medium.com/@canozgundogus/where-a-coordinator-comes-from-mvvm-c-on-ios-part-2-2ad313b3b351) | [`v1.2.0`](https://github.com/Ozgundogus/mvvm-coordinators/tree/v1.2.0) |
+| [Proving It: MVVM-C on iOS, Part 3](https://medium.com/@canozgundogus/proving-it-mvvm-c-on-ios-part-3-81a85b252420) | [`v1.3.0`](https://github.com/Ozgundogus/mvvm-coordinators/tree/v1.3.0) |
 
 ## The tree
 

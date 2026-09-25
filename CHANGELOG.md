@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.0 — 2026-09-25
 
 Companion release for *Proving It: MVVM-C on iOS, Part 3*.
 
