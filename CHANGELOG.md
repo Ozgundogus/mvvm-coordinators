@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+Companion release for *Proving It: MVVM-C on iOS, Part 3*.
+
+- `removeChild` rebuilds the `children` array instead of removing in place: `removeAll(where:)` leaves the old pointer in spare capacity, and conservative scanners (Leaks, Memory Graph) then report a released child as still reachable and miss the real cycle
+- Leak Lab tests: the closure-cycle child is removed but stays alive; the forgotten child stays in `children`; a healthy flow deallocates
+
 ## 1.2.0 — 2026-09-24
 
 Companion release for *Where a Coordinator Comes From: MVVM-C on iOS, Part 2*.

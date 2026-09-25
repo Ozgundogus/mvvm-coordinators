@@ -17,8 +17,11 @@ extension Coordinator {
         children.append(child)
     }
 
+    /// Rebuilds the array instead of removing in place: `removeAll(where:)` leaves
+    /// the old pointer bits in spare capacity, and conservative scanners (Leaks,
+    /// Memory Graph) then report a released child as still referenced.
     func removeChild(_ child: Coordinator) {
-        children.removeAll { $0 === child }
+        children = children.filter { $0 !== child }
         child.parent = nil
     }
 
